@@ -1,0 +1,42 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: locks-testing
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/SpringBootKeycloak
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  auth:
+    converter:
+      resource-id: springboot-keycloak-client
+      principal-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    root: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.transaction: DEBUG
+
+
